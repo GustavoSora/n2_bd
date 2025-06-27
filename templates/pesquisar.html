@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pesquisar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Pesquisar Usuário</h1>
+    <form method="POST">
+        Nome: <input type="text" name="busca" required>
+        <button type="submit">Buscar</button>
+    </form>
+
+    {% if resultado %}
+        <h2>Resultados:</h2>
+        <ul>
+        {% for r in resultado %}
+            <li><strong>{{ r.nome }}</strong> — Filho: {{ r.filho }}, Rua: {{ r.rua }}, doc: {{ r.doc }}</li>
+        {% endfor %}
+        </ul>
+    {% elif request.method == 'POST' %}
+        <p>Nenhum resultado encontrado.</p>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}">Voltar</a>
+</div>
+</body>
+</html>

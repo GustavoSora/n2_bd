@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar Documento</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Cadastrar Documento</h2>
+        <form method="POST">
+            <label>Campo 1:</label>
+            <input type="text" name="campo1" required><br>
+
+            <button type="submit">Cadastrar</button>
+        </form>
+        <a href="/">Voltar</a>
+    </div>
+</body>
+</html>
