@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
+import json
 
 app = Flask(__name__)
 app.secret_key = 'chave_super_secreta'
@@ -12,9 +13,30 @@ client = MongoClient(uri, server_api=ServerApi('1'))
 db = client['meu_app']
 usuarios_col = db['usuarios']
 
+# pega json dos exercicios
+path_exercicios = 'JSON/n3perguntas.json'
+
+with open(path_exercicios, 'r') as jsonEx:
+    dataEx = json.load(jsonEx)
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', dataEx=dataEx)
+
+@app.route('/ex/<int:id>', methods=['GET', 'POST'])
+def mostrarExercicio(id=None):
+    if request.method == 'POST':
+        selected_id = request.form.get('exercicio_id')
+        if selected_id:
+            return redirect(url_for('mostrarExercicio', id=selected_id))
+
+    # busca exercicio pelo ID
+    exercicio = dataEx[id-1]
+    # caso exercicio nao exista volta para o /
+    if id <= 0 or id > len(dataEx):
+        return redirect(url_for('home'))
+
+    return render_template('exercicio.html', htmlId=exercicio['_id'], htmlTitulo=exercicio['titulo'], htmlResposta=exercicio['resposta'])
 
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
