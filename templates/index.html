@@ -14,7 +14,7 @@
 </div>
 <div class="container">
     <h2>Exercícios N3</h2>
-    <form method="POST" action="{{ url_for('mostrarExercicio') }}">
+    <form method="POST">
         <select name="exercicio_id">
         {% for ex in dataEx %}
             <option value="{{ ex._id}}">Ex. {{ ex._id}}</option>
